@@ -177,7 +177,7 @@
      * @returns {number} 
      */
     function transformAngle(angle) {
-        return -angle + 90
+        return 90-angle
     }
 
     /**
@@ -187,7 +187,7 @@
      * @returns {number} 
      */
     function untransformAngle(angle) {
-        return -(angle - 90)
+        return 90-angle
     }
 
     function standarizeJSONObject(json) {
@@ -274,7 +274,7 @@
      * @typedef {ComplexNumberType}
      */
     class ComplexNumberType {
-        customId = "reisenComplexNumber";
+        customId = "salagataComplexNumber";
 
         
         /**
@@ -390,11 +390,12 @@
          * @returns {string} 
          */
         jwArrayHandler() {
-            if(this._fromPolar) {
-                return `Complex<${this.real},${this.imaginary},${this.modulus},${this.phase}>`;
-            } else {
-                return `Complex<${this.real},${this.imaginary}>`;
-            }
+            return this.toString(this._fromPolar)
+            // if(this._fromPolar) {
+                
+            // } else {
+            //     return `Complex<${this.real},${this.imaginary}>`;
+            // }
         }
         
         /**
@@ -535,24 +536,28 @@
             return new ComplexNumber.Type(...z)
         }
     }
-
-    // Scratch.vm.runtime.on("EXTENSION_ADDED", () => {
-    //     if(Scratch.vm.runtime.ext_jwArray) {
-    //         integrationsEnabled.jwArray = true;
-    //     }
-    //     if(Scratch.vm.runtime.ext_jwVector) {
-    //         integrationsEnabled.jwVector = true;
-    //     }
-    //     if(Scratch.vm.runtime.ext_dogeiscutSet) {
-    //         integrationsEnabled.dogeiscutSet = true;
-    //     }
-    //     Scratch.vm.runtime.extensionManager.refreshBlocks();
-    // });
+    function checkIntegrations() {
+        queueMicrotask(() => {
+            // console.log("extension added");
+            // console.log(Boolean(Scratch.vm.runtime.ext_jwArray),Boolean(Scratch.vm.runtime.ext_jwVector),Boolean(Scratch.vm.runtime.ext_dogeiscutSet));
+            if(Scratch.vm.runtime.extensionManager.isExtensionLoaded("jwArray")) {
+                integrationsEnabled.jwArray = true;
+            }
+            if(Scratch.vm.runtime.extensionManager.isExtensionLoaded("jwVector")) {
+                integrationsEnabled.jwVector = true;
+            }
+            if(Scratch.vm.runtime.extensionManager.isExtensionLoaded("dogeiscutSet")) {
+                integrationsEnabled.dogeiscutSet = true;
+            }
+            Scratch.vm.runtime.extensionManager.refreshBlocks("salagataComplexNumber");
+        })
+    }
+    checkIntegrations();
+    Scratch.vm.runtime.on("EXTENSION_ADDED", checkIntegrations);
 
     class ComplexNumberExtension {
         constructor() {
             Scratch.vm.salagataComplexNumber = ComplexNumber,
-            // Scratch.vm.reisenComplexPolar = ComplexPolar,
             Scratch.vm.runtime.registerSerializer(
                 "salagataComplexNumber",
                 ComplexNumber.Serializer, ComplexNumber.Deserializer
@@ -1170,7 +1175,7 @@
                         disableMonitor: true
                     },
                     
-                    ...(Scratch.vm.runtime.ext_jwVector ? ["---"] : []),
+                    ...(integrationsEnabled.jwVector ? ["---"] : []),
                     {
                         opcode: "toVector",
                         text: this.formatMessage("convert [COMPLEX] to vector"),
@@ -1178,10 +1183,11 @@
                             COMPLEX: ComplexNumber.Argument,
                         },
                         color1: "#6babff",
+                        color3: "#5588CC",
                         blockType: Scratch.BlockType.REPORTER,
                         blockShape: Scratch.BlockShape.LEAF,
                         disableMonitor: true,
-                        hideFromPalette: !Scratch.vm.runtime.ext_jwVector,
+                        hideFromPalette: !integrationsEnabled.jwVector,
                         ...(Scratch.vm.jwVector ? Scratch.vm.jwVector.Block : {})
                     },
                     {
@@ -1194,11 +1200,11 @@
                         },
                         blockType: Scratch.BlockType.REPORTER,
                         disableMonitor: true,
-                        hideFromPalette: !Scratch.vm.runtime.ext_jwVector,
+                        hideFromPalette: !integrationsEnabled.jwVector,
                         ...ComplexNumber.Block
                     },
 
-                    ...(Scratch.vm.runtime.ext_jwArray ? ["---"] : []),
+                    ...(integrationsEnabled.jwArray ? ["---"] : []),
                     {
                         opcode: "quadraticEquationJwArray",
                         text: this.formatMessage("solutions of equation [A]x^2 + [B]x + [C] = 0"),
@@ -1221,7 +1227,7 @@
                         blockType: Scratch.BlockType.REPORTER,
                         blockShape: Scratch.BlockShape.SQUARE,
                         disableMonitor: true,
-                        hideFromPalette: !Scratch.vm.runtime.ext_jwArray,
+                        hideFromPalette: !integrationsEnabled.jwArray,
                         ...(Scratch.vm.jwArray ? Scratch.vm.jwArray.Block : {})
                     },
                     {
@@ -1245,11 +1251,11 @@
                         blockType: Scratch.BlockType.REPORTER,
                         blockShape: Scratch.BlockShape.SQUARE,
                         disableMonitor: true,
-                        hideFromPalette: !Scratch.vm.runtime.ext_jwArray,
+                        hideFromPalette: !integrationsEnabled.jwArray,
                         ...(Scratch.vm.jwArray ? Scratch.vm.jwArray.Block : {})
                     },
 
-                    ...(Scratch.vm.runtime.ext_dogeiscutSet ? ["---"] : []),
+                    ...(integrationsEnabled.dogeiscutSet ? ["---"] : []),
                     {
                         opcode: "quadraticEquationDogeiscutSet",
                         text: this.formatMessage("solutions of equation [A]x^2 + [B]x + [C] = 0"),
@@ -1272,7 +1278,7 @@
                         blockType: Scratch.BlockType.REPORTER,
                         blockShape: Scratch.BlockShape.SQUARE,
                         disableMonitor: true,
-                        hideFromPalette: !Scratch.vm.runtime.ext_dogeiscutSet,
+                        hideFromPalette: !integrationsEnabled.dogeiscutSet,
                         ...(Scratch.vm.dogeiscutSet  ? Scratch.vm.dogeiscutSet.Block : {})
                     },
                     {
@@ -1296,7 +1302,7 @@
                         blockType: Scratch.BlockType.REPORTER,
                         blockShape: Scratch.BlockShape.SQUARE,
                         disableMonitor: true,
-                        hideFromPalette: !Scratch.vm.runtime.ext_dogeiscutSet,
+                        hideFromPalette: !integrationsEnabled.dogeiscutSet,
                         ...(Scratch.vm.dogeiscutSet ? Scratch.vm.dogeiscutSet.Block : {})
                     },
                 ],

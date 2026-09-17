@@ -20,8 +20,9 @@ While developing this extension, I found a problem in the way that Scratch repre
 In Scratch, 90° is pointing right, with 0° pointing up, which is different from the common representation which is the opposite.
 The trigonometrical functions (even the ones defined in ([sin v] of ()) block, Scratch-core), recieve as argument a different kind of angle. <br>
 Internally, Scratch has to do `90 - SCRATCH_ANGLE` in order to perform any trigonometrical operation. It converts the Scratch angle recieved commonly as input into a Plane angle(The one used in Mathematics).
-![Complex Plane angles](https://files.catbox.moe/umf5i8.png)
+![Complex Plane angles](../images/salagata/complexDocs/complexPlaneAngles.png)
 > ‍Kan8eDie, CC BY-SA 3.0 <https://creativecommons.org/licenses/by-sa/3.0>, via Wikimedia Commons <br>
+
 In this documentation. I'm going to define `Scratch Angle` as the angles that are used in Scratch angle inputs, and `Complex Plane angle` as the angles that are used in Trigonometry (and Complex Analysis). And `to transform ANGLE into ANGLE` to the mathematical operation of converting one kind of angle into another, and viceversa.
 ```scratch
 set direction to (90) ::motion  // Arguments are in Scratch angles
@@ -43,8 +44,10 @@ angle of () ::#6BABFF reporter // Returns the answer in Scratch angles
 ```
 
 This point is important because Scratch Angles doesn't follow the natural properties that Complex Plane angles do, like
-*"The angle of the product of a complex number of modulus 1 and angle `ANGLE_1` with a complex number of modulus 1 and angle  `ANGLE_2` is equal to `ANGLE_1 + ANGLE_2`"*(One of the properties of complex numbers in polar form) is **not** true if the angles are defined in Scratch angles. Or, ilustrated.
-![Angle equivalency](https://files.catbox.moe/fz14md.png)
+> *"The angle of the product of a complex number of modulus 1 and angle `ANGLE_1` with a complex number of modulus 1 and angle  `ANGLE_2` is equal to `ANGLE_1 + ANGLE_2`"*
+
+(One of the properties of complex numbers in polar form) is **not** true if the angles are defined in Scratch angles. Or, ilustrated.
+![Angle equivalency](../images/salagata/complexDocs/angleEquivalency.png)
 
 This extension interally expresses the angles of Complex Numbers in Complex Plane Angles and recieves/returns Scratch angles for deal with this problem. In addition of the following blocks.
 
@@ -274,6 +277,15 @@ Returns the Imaginary part of a complex number, independent of it's representati
 (absolute value [A] :: #847E3F)
 ```
 Returns the Absolute value, or modulus of a complex number, independent of it's representation
+| Argument  | Description |
+| ------------- |:-------------:|
+| A      | Complex number using any representation |
+
+---
+```scratch
+(phase [A] :: #847E3F)
+```
+Returns the Argument, or the phase of a complex number *as a scratch angle*, independent of it's representation
 | Argument  | Description |
 | ------------- |:-------------:|
 | A      | Complex number using any representation |
