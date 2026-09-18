@@ -190,39 +190,39 @@
         return 90-angle
     }
 
-    function standarizeJSONObject(json) {
+    // function standarizeJSONObject(json) {
         
-        const standardMap = {
-            real: ["real", "x"],
-            imaginary: ["imaginary", "y"],
-            absolute: ["absolute", "magnitude", "force"],
-            phase: ["phase", "argument", "angle", "rotation"]
-        }
-        const standarized = {};
+    //     const standardMap = {
+    //         real: ["real", "x"],
+    //         imaginary: ["imaginary", "y"],
+    //         absolute: ["absolute", "magnitude", "force"],
+    //         phase: ["phase", "argument", "angle", "rotation"]
+    //     }
+    //     const standarized = {};
 
-        for (const key of standardMap.real) {
-            if(json.hasOwnProperty(key)) {
-                standarized.real = json[key];
-            }
-        }
-        for (const key of standardMap.imaginary) {
-            if(json.hasOwnProperty(key)) {
-                standarized.imaginary = json[key];
-            }
-        }
-        for (const key of standardMap.absolute) {
-            if(json.hasOwnProperty(key)) {
-                standarized.absolute = json[key];
-            }
-        }
-        for (const key of standardMap.phase) {
-            if(json.hasOwnProperty(key)) {
-                standarized.phase = json[key];
-            }
-        }
+    //     for (const key of standardMap.real) {
+    //         if(json.hasOwnProperty(key)) {
+    //             standarized.real = json[key];
+    //         }
+    //     }
+    //     for (const key of standardMap.imaginary) {
+    //         if(json.hasOwnProperty(key)) {
+    //             standarized.imaginary = json[key];
+    //         }
+    //     }
+    //     for (const key of standardMap.absolute) {
+    //         if(json.hasOwnProperty(key)) {
+    //             standarized.absolute = json[key];
+    //         }
+    //     }
+    //     for (const key of standardMap.phase) {
+    //         if(json.hasOwnProperty(key)) {
+    //             standarized.phase = json[key];
+    //         }
+    //     }
 
-        return standarized;
-    }
+    //     return standarized;
+    // }
 
     
     /**
